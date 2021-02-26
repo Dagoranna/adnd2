@@ -1,3 +1,0 @@
-сервер от сайта лежит в: 
-E:\Айси\Учеба\Node\serv_4
-https://github.com/Dagoranna/server_4
