@@ -67,7 +67,7 @@
                     <div>
                         <p class="f_grav1"><font size="5" color="#FFCF40">Код игры:</font></p>
                         
-                        <input type="text" id="gameId" class="diceInputs">
+                        <input type="text" id="gameId" class="diceInputs" onchange="sendServiceMessage();">
                         <br>
                         <p class="f_grav1"><font size="5" color="#FFCF40">Имя игрока:</font></p>
                         
@@ -127,27 +127,34 @@
                 let numRolls = Number(messageArr[4]);
                 let diceSum = 0;
                 
-                if (messageArr[2].indexOf('~') > 0){
-                    let myGamerName = messageArr[2].slice(0,messageArr[2].indexOf('~'));
-                    let myGamerColor = messageArr[2].slice(messageArr[2].indexOf('~')+1);
-                    decAnswer = '<p><b><span style="color:' +myGamerColor+ '">' + myGamerName + ' : </span></b>';
-                    console.log(decAnswer);
+                if (messageArr[3] == 13){
+                    //это было служебное сообщение для обновления данных о клиенте на сервере
+                    //выводить ничего не надо
+                    decAnswer = "";
                 }else{
-                    decAnswer = '<p><b>' + messageArr[2] + ': </b>';
-                }
-               
-                if (numRolls ==1){
-                    decAnswer += messageArr[5]
-                }else{
-                    for (let i = 1; i < numRolls; i++){
-                        decAnswer += messageArr[i+4] + ', ';
-                        diceSum += Number(messageArr[i+4]);
+                    if (messageArr[2].indexOf('~') > 0){
+                        let myGamerName = messageArr[2].slice(0,messageArr[2].indexOf('~'));
+                        let myGamerColor = messageArr[2].slice(messageArr[2].indexOf('~')+1);
+                        decAnswer = '<p><b><span style="color:' +myGamerColor+ '">' + myGamerName + ' : </span></b>';
+                        console.log(decAnswer);
+                    }else{
+                        decAnswer = '<p><b>' + messageArr[2] + ': </b>';
                     }
-                    diceSum += Number(messageArr[4 + numRolls]);
-                    decAnswer += messageArr[4 + numRolls] +' (в сумме ' +diceSum+ ')';
-                    
+                   
+                    if (numRolls ==1){
+                        decAnswer += messageArr[5]
+                    }else{
+                        for (let i = 1; i < numRolls; i++){
+                            decAnswer += messageArr[i+4] + ', ';
+                            diceSum += Number(messageArr[i+4]);
+                        }
+                        diceSum += Number(messageArr[4 + numRolls]);
+                        decAnswer += messageArr[4 + numRolls] +' (в сумме ' +diceSum+ ')';
+                        
+                    }
+                    decAnswer += ' на d' + messageArr[3] + '</p>';
                 }
-                decAnswer += ' на d' + messageArr[3] + '</p>';
+                
                 return decAnswer;
             }
             
@@ -179,34 +186,31 @@
                 let choosedColor = colorBox.value;
                 colorBox.style.color = choosedColor;
                 document.getElementById("gamerName").style.color = choosedColor;
-                //$(colorBox).hide();
             }
-            
-            
-            
+
             connect();
             
             function connect(){
                 socket = new WebSocket("wss://radiant-peak-08482.herokuapp.com");
                 console.log('открываем соединение...');
+                setTimeout(sendServiceMessage, 2000); 
+                
             }
             
             function reconnect(){
                 socket = new WebSocket("wss://radiant-peak-08482.herokuapp.com");
                 socket.addEventListener('open', function (event) {
+                    sendServiceMessage();
                     console.log('соединение восстановлено');
                 });
                 socket.addEventListener('message', function (event) {
                     console.log(event.data);
                     if (event.data.indexOf('dice') == 0){
                         //dice|111|eeee|20|1|16
-                        //let messageArr = event.data.split('|'); 
-                        //gameLog.innerHTML = '<p><b>' + messageArr[2] + ': </b>' + messageArr[5] + ' на d' + messageArr[3] + '</p>' + gameLog.innerHTML;
                         gameLog.innerHTML = answerDecoding(event.data) + gameLog.innerHTML;
                     }                    
                 });
                 socket.addEventListener('close', function (event) {
-                    //gameLog.innerHTML = '<p>соединение закрыто ' + event.code+ '</p>' +gameLog.innerHTML;
                     if (!(event.code == 1005)){
                         reconnect();
                     }
@@ -226,7 +230,6 @@
                     currGameId = "zerogame";
                 }                
                 
-                //myInput = 'dice|' + currGameId + '|' + currGamerName + '|' + $(".diceActive")[0].id + '|1' ;
                 myInput = 'dice|' + currGameId + '|' + currGamerName + '|' + $(".diceActive")[0].id + '|' 
                 + document.querySelector("input[name=diceNumber]").value;
                 
@@ -239,13 +242,37 @@
                 socket.send(myInput);
             }
             
+            function sendServiceMessage(){
+                currGamerName = document.getElementById("gamerName").value;
+                if (currGamerName == "") {
+                    currGamerName = "аноним";
+                }
+                
+                currGamerName += '~' + document.getElementById("gamerName").style.color;
+                
+                currGameId = document.getElementById("gameId").value;
+                if (currGameId == "") {
+                    currGameId = "zerogame";
+                }                
+                
+                myInput = 'dice|' + currGameId + '|' + currGamerName + '|13|1';
+                
+                console.log(myInput);
+                
+                if (socket.readyState == '3'){
+                   reconnect();
+                   setTimeout(socket.send, 2000, myInput); 
+                }
+                socket.send(myInput);
+            }            
+            
             function closeConnection(){
                 socket.close();
                 console.log('соединение закрыто');
             }
             
             socket.onopen = function(event) {
-                
+                sendServiceMessage();
                 console.log('соединение установлено');
             };
             
