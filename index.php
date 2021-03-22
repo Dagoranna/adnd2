@@ -2,8 +2,8 @@
 <html>
     <head>
         <meta charset="utf-8">
-        
-        <link rel="stylesheet" href="style.css?34">  
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">  
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> 
@@ -12,71 +12,68 @@
     </head>
     
     <body style="background-color: black;">
-        
         <div id="myWrapper">
-            <div id="mainHeader" class="f_grav1" >Advanced Dungeons & Dragons</div>
-            <div id="dragonBG"></div>
-            <div id="root_menu">
-            <!--    <div class="root_menu_item f_grav1" onclick="location.href='https://adndworld.000webhostapp.com/objectmap.php';">
-                    <p>Игровое поле</p>
-                </div>    -->
-                <div class="root_menu_item f_grav1" onclick="polydice();">
-                    <p>Дайсы</p>
-                </div>
-                <div class="root_menu_item f_grav1" onclick="location.href='https://www.dandwiki.com/wiki/SRD:System_Reference_Document';">
-                    <p>AD&D-справочник</p>
-                </div>  
-                <div class="root_menu_item f_grav1" onclick="location.href='http://sabbat.su/dd';">
-                    <p>Иногда случается...</p>
-                </div> 
-            </div>
-            <!-- <div id="dices" class="dices" style="display: none"> -->
-            <div id="dices" class="dices">    
+            <div id="dices"> 
                 <div id="dicePanel">
                     <div class="dx" id="d4">
-                        <input type="radio" name="dices" value="d4"><font color="#FFCF40">d4</font>
-                        <img class="diceImg" id="4" src="/other_img/dice_d4.png">
+                        <div><input type="radio" name="dices" value="d4"></div>    
+                        <div>d4</div>
+                        <div class="nowrapHelper"></div>
+                        <div><img class="diceImg" id="4" src="/other_img/dice_d4.png"></div>    
                     </div>
                     <div class="dx" id="d6">
-                        <input type="radio" name="dices" value="d6"><font color="#FFCF40">d6</font>
-                        <img class="diceImg" id="6" src="/other_img/dice_d6.png">
-                    </div>      
+                        <div><input type="radio" name="dices" value="d6"></div>    
+                        <div>d6</div>
+                        <div class="nowrapHelper"></div>
+                        <div><img class="diceImg" id="6" src="/other_img/dice_d6.png"></div>    
+                    </div>     
                     <div class="dx" id="d8">
-                        <input type="radio" name="dices" value="d8"><font color="#FFCF40">d8</font>
-                        <img class="diceImg" id="8" src="/other_img/dice_d8.png">
+                        <div><input type="radio" name="dices" value="d8"></div>    
+                        <div>d8</div>
+                        <div class="nowrapHelper"></div>
+                        <div><img class="diceImg" id="8" src="/other_img/dice_d8.png"></div>    
                     </div>
                     <div class="dx" id="d10">
-                        <input type="radio" name="dices" value="d10"><font color="#FFCF40">d10</font>
-                        <img class="diceImg" id="10" src="/other_img/dice_d10.png">
-                    </div> 
+                        <div><input type="radio" name="dices" value="d10"></div>    
+                        <div>d10</div>
+                        <div class="nowrapHelper"></div>
+                        <div><img class="diceImg" id="10" src="/other_img/dice_d10.png"></div>    
+                    </div>
                     <div class="dx" id="d12">
-                        <input type="radio" name="dices" value="d12"><font color="#FFCF40">d12</font>
-                        <img class="diceImg" id="12" src="/other_img/dice_d12.png">
+                        <div><input type="radio" name="dices" value="d12"></div>    
+                        <div>d12</div>
+                        <div class="nowrapHelper"></div>
+                        <div><img class="diceImg" id="12" src="/other_img/dice_d12.png"></div>    
                     </div>
                     <div class="dx" id="d20">
-                        <input type="radio" name="dices" id="mainDice" value="d20"><font color="#FFCF40">d20</font>
-                        <img class="diceImg diceActive" id="20" src="/other_img/dice_d20.png">
-                    </div>                      
+                        <div><input type="radio" name="dices" value="d20" id="mainDice"></div>    
+                        <div>d20</div>
+                        <div class="nowrapHelper"></div>
+                        <div><img class="diceImg diceActive" id="20" src="/other_img/dice_d20.png"></div>
+                    </div> 
                     <div class="dx" id="d100">
-                        <input type="radio" name="dices" value="d100"><font color="#FFCF40">d100</font>
+                        <div><input type="radio" name="dices" value="d100"></div>    
+                        <div>d100</div>
+                        <div class="nowrapHelper"></div>
+                        <div><img class="diceImg" id="100" src="/other_img/dice_d100.png"></div>    
+                    </div>                                         
+          <!--          <div class="dx" id="d100">
+                        <input type="radio" name="dices" value="d100"><span>d100</span>
                         <img class="diceImg" id="100" src="/other_img/dice_d100.png">
-                    </div>                     
+                    </div>                     -->
                 </div>
-                
-                <div id="gameData" class="emeraldFrame">
-                    <div>
-                        <p class="f_grav1"><font size="5" color="#FFCF40">Код игры:</font></p>
-                        
+                <div id="diceField">
+                    <div id="gameData" class="silverFrame">
+                        <div class="f_grav1 unselectable">Код игры:</div>
                         <input type="text" id="gameId" class="diceInputs" onchange="sendServiceMessage();">
                         <br>
-                        <p class="f_grav1"><font size="5" color="#FFCF40">Имя игрока:</font></p>
-                        
+                        <div class="f_grav1 unselectable">Имя игрока:</div>
                         <input type="text" id="gamerName" class="diceInputs">
                         <div id="gamerColor" onclick="chooseColor();">
-                            <select id="colorSelector" name="myColor" style="display: none; color: gold;" onchange="changeColor();" onblur="$(this).hide();">
+                            <select id="colorSelector" name="myColor" style="display: none; color: silver;" onchange="changeColor();" onblur="$(this).hide();">
                                 <option style="color: white">White</option>
-                                <option style="color: Silver">Silver</option>
-                                <option selected style="color: Gold">Gold</option>
+                                <option selected style="color: Silver">Silver</option>
+                                <option style="color: Gold">Gold</option>
                                 <option style="color: Fuchsia">Fuchsia</option>
                                 <option style="color: Purple">Purple</option>
                                 <option style="color: Red">Red</option>
@@ -91,20 +88,26 @@
                                 <option style="color: Navy">Navy</option> 
                             </select>
                         </div>    
-                        <br>
                     </div>
+                    <div id="gameLog" class="silverFrame"></div>
+                    <div id="flexHelper1" class="nowrapHelper"></div> 
+                    <div id="diceRollProps">
+                        <div id="diceRoll" onclick="sendMessage();">
+                            <span class="centerText unselectable">Бросок</span>
+                        </div>
+                        <div id="pNumber">
+                            <div id="pNumberText" class="unselectable">Количество бросков:</div>
+                            <div>
+                                <input name="diceNumber" id="diceNumber" type="number" value="1" max="100" min="1">  
+                            </div>
+                        </div>
+                    </div> 
+
                 </div>
-                <div id="gameLog" class="emeraldFrame"></div>
-                <div id="myRoll">
-                    <div id="diceRoll" class="f_grav1 emeraldFrame" onclick="sendMessage();">
-                        <span class="centerText unselectable">Бросок</span>
-                    </div>
-                    <p class="f_grav1" id="pNumber"><font size="4" color="#FFCF40">Количество бросков:</font></p>
-                    <input name="diceNumber" id="diceNumber" type="number" value="1" max="100" min="1">  
-                </div>    
+  
             </div>
         </div>
-        
+
         <script>
             var socket;
             let gameLog = document.getElementById("gameLog");
@@ -159,17 +162,16 @@
             }
             
             //$("#dices").draggable();
+            
             $("#mainDice").prop('checked', true);
- 
+            
             $('#dicePanel').on('click', '.dx', function(event){
-                
+
                 let target = event.target.closest(".dx");
-                let diceButton = target.firstElementChild;
-                let diceImg = target.lastElementChild;
-                //  $(rbuttn).hide(); //FOR TEST, работает!
+                let diceButton = target.getElementsByTagName('input')[0];
+                let diceImg = target.getElementsByTagName('img')[0];
                 
                 $(diceButton).prop('checked', true);
-                //diceActive
                 $(".diceActive").removeClass("diceActive");
                 
                 $(diceImg).addClass("diceActive");
